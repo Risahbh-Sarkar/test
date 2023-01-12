@@ -18,3 +18,17 @@ stages{
   tfHome = tool name: 'terraform', type: 'terraform'
   return tfHome
   }
+
+
+pipeline {
+  agent any
+  stages {
+   stage('Terminate Machine') {
+      steps {
+        script {
+          sh(script: 'aws lambda invoke  --function-name terminate-instance --payload  '{"private_ip_address":"${instance_ip}" }')          
+        }            
+      }
+    }
+  }
+}  
