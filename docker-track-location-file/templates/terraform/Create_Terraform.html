@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Terraform</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+      }
+      
+      .form-container {
+        width: 600px;
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .form-container label {
+        margin-bottom: 8px;
+      }
+      
+      .form-container input {
+        width: 50%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+      }
+      
+      .form-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      /* Popup container */
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid #ccc;
+        padding: 20px;
+        background-color: #fff;
+        z-index: 9999;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>Message:</strong> {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+      {% endfor %}
+      <h2>Create your First architechture for CI/CD Pipeline.</h2>
+      <form method="post" action="/Create_Terraform" class="mb-2">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Terraform Name" Required />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="s3_bucket">s3 bucket</label>
+          <input type="text" class="form-control" id="s3_bucket" name="s3_bucket" placeholder="Enter s3 bucket name" Required />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="config">Config</label>
+          <input type="text" class="form-control" id="config" name="config" placeholder="Enter config" Required />
+        </div>
+        <br />
+        <h4>Create Lambda Function.</h4>
+        <div class="form-group">
+          <label for="lambda_name">Lambda Name</label>
+          <input type="text" class="form-control" id="lambda_name" name="lambda_name" placeholder="Enter Lambda Function Name" Required />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="runtime">Runtime</label>
+          <select id="runtime" name="runtime">
+            <option value="Python 3.12">Python 3.12</option>
+            <option value="Python 3.11">Python 3.11</option>
+            <option value="Python 3.10" >Python 3.10</option>
+            <option value="Python 3.9"selected>Python 3.9</option>
+          </select>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="architecture">Architecture</label><br>
+          <input type="checkbox" class="form-control" id="architecture" name="architecture" value="x86_64">x86_64
+          <input type="checkbox" class="form-control" id="architecture" name="architecture" value="arm64" checked>arm64
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="lambda_iam_role">Lambda Iam role</label>
+          <input type="text" class="form-control" id="lambda_iam_role" name="lambda_iam_role" placeholder="Enter the lambda_iam_role" Required />
+        </div>akashthesky67@gmail.com
+        <br />
+        <div class="form-group">
+          <label for="tags">tags</label>
+          <input type="text" class="form-control" id="tags" name="tags" placeholder="Enter the tags" Required />
+        </div>
+        <br />
+        <h4>Create Glue Job.</h4>
+        <div class="form-group">
+          <label for="glue_job_name">Job Name</label>
+          <input type="text" class="form-control" id="glue_job_name" name="glue_job_name" placeholder="Enter the Job Name" Required />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="glue_iam_role">Glue Iam role</label>
+          <input type="text" class="form-control" id="glue_iam_role" name="glue_iam_role" placeholder="Enter the Glue Iam role" Required />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="pass1">Glue version</label>
+          <select id="runtime" name="runtime">
+            <option value="Glue 2.0 - Supports spark 2.4, Scala 2, Python 3">Glue 2.0 - Supports spark 2.4, Scala 2, Python 3</option>
+            <option value="Glue 3.0 - Supports spark 3.1, Scala 2, Python 3">Glue 3.0 - Supports spark 3.1, Scala 2, Python 3</option>
+            <option value="Glue 4.0 - Supports spark 3.3, Scala 2, Python 3"selected>Glue 4.0 - Supports spark 3.3, Scala 2, Python 3</option>
+          </select>
+          {% comment %} <input type="text" class="form-control" id="pass1" name="pass1" placeholder="Enter the value" Required /> {% endcomment %}
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="pass1">Worker type</label><select id="runtime" name="runtime">
+            <option value="G 1X" selected>G 1X</option>
+            <option value="G 2X">G 2X</option>
+          </select>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="pass1">Requested number of workers</label>
+          <input type="text" class="form-control" id="pass1" name="pass1" placeholder="Enter the value" Required />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="pass1">Maximum concurrency</label>
+          <input type="text" class="form-control" id="pass1" name="pass1" placeholder="Enter the value" Required />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="pass1">Connections Name</label>
+          <input type="text" class="form-control" id="pass1" name="pass1" placeholder="Enter the value" Required />
+        </div>
+        <br />
+        <form action="submit.php" method="post">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required><br><br>
+          
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required><br><br>
+          
+          <label for="age">Age:</label>
+          <input type="number" id="age" name="age" required><br><br>
+          
+          <!-- Additional Fields -->
+          <label for="phone">Phone:</label>
+          <input type="tel" id="phone" name="phone"><br><br>
+          
+          <label for="country">Country:</label>
+          <input type="text" id="country" name="country"><br><br>
+          
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="4"></textarea><br><br>
+          
+          <input type="submit" value="Submit">
+      </form>
+        <div class="form-group">
+          <label for="pass1">Job parameters </label>
+          <input type="text" class="form-control" id="pass1" name="pass1" placeholder="Enter the value" Required />
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </form>
+    </div>
+  </body>
+</html>
